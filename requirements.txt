@@ -1,0 +1,12 @@
+# Core
+requests>=2.31
+pyyaml>=6.0
+python-dotenv>=1.0
+
+# YouTube
+youtube-transcript-api>=1.0
+yt-dlp>=2024.1
+
+# Opcional: solo si vas a usar el fallback Whisper local (pesa ~1GB el modelo small).
+# Descomentar para instalar:
+# faster-whisper>=1.0

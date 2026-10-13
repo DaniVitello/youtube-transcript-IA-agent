@@ -1,0 +1,81 @@
+paths:
+  output_dir: "./data/processed"
+  raw_dir: "./data/raw"
+  index_file: "./data/index.json"
+
+categories:
+  - programacion
+  - inteligencia_artificial
+  - ciencia
+  - finanzas
+  - productividad
+  - negocios
+  - educacion
+  - salud
+  - entretenimiento
+  - sin-categorizar
+
+transcript:
+  preferred_languages: ["es", "en"]
+  fallback_order: ["youtube_api", "ytdlp", "whisper"]
+  whisper_model: "small"   # subir a "medium" o "large-v3" si hay GPU
+  max_chars_for_llm: 12000
+
+llm:
+  # "gemini" usa tu GOOGLE_API_KEY | "groq" usa GROQ_API_KEY (alternativa gratis)
+  provider: "groq"
+  model: "openai/gpt-oss-120b"
+  temperature: 0.2
+  max_tokens: 2048
+  timeout_seconds: 60
+
+sponsors:
+  enabled: true
+  use_sponsorblock: true
+  # Categorías de SponsorBlock a cortar (ver https://wiki.sponsor.ajay.app/)
+  sb_categories: ["sponsor", "selfpromo"]
+  # Si SponsorBlock no tiene datos, usar heurística + LLM como fallback
+  llm_fallback: true
+  keep_note: true   # dejar una nota "[sponsor cortado xx:xx–xx:xx]" en el md
+
+research:
+  mode: "hybrid"   # "ytdlp" | "api" | "hybrid" (usa API si hay key, si no yt-dlp)
+  max_results_per_topic: 8
+  cooldown_days: 7          # no re-ofrecer un video ya ofrecido dentro de N días
+  min_duration_seconds: 120 # filtrar shorts/micro-clips
+  # --- Calidad (solo se aplican con API key; el digest muestra las vistas) ---
+  order: "relevance"  # "relevance" imita youtube.com | "viewCount" | "rating" | "date"
+  min_views: 10000    # ignora videos con menos vistas (0 = sin filtro)
+  min_subs: 0         # ej. 5000: ignora canales chicos (0 = sin filtro)
+  max_age_days: 0     # ej. 365: solo videos del último año (0 = sin filtro)
+  # Canales de confianza: siempre salen primeros (por nombre o channel_id)
+  prefer_channels: []
+  # prefer_channels:
+  #   - "AprendemosJuntos"
+  #   - "DotCSV"
+  topics: []                # vacío = deriva topics de `categories`. O lista explícita:
+  # topics:
+  #   - "faster-whisper español"
+  #   - "agentes IA con Groq"
+  channels: []              # channel_id de YouTube para vigilar vía RSS (opcional)
+  # channels:
+  #   - "UC_x5XG1OV2P6uZZ5FSM9Ttw"  # ejemplo: Google Developers
+
+output:
+  formats: ["markdown", "json"]
+  include_timestamps: true
+  include_metadata: true
+
+skills:
+  enabled:
+    - summary
+    - key_points
+    - chapters
+    - quotes
+    - sponsor_cut
+
+pipeline:
+  skip_if_already_processed: true
+  create_category_folders: true
+  save_raw_transcript: true
+  max_retries: 3

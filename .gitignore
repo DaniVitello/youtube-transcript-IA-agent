@@ -1,0 +1,15 @@
+# Keys y datos locales: NUNCA subir al repo
+.env
+.venv/
+__pycache__/
+*.pyc
+
+# Salidas del agente (transcripts, índices) — son datos, no código
+data/raw/
+data/processed/
+data/index.json
+data/offered.json
+data/research_*.md
+# Pero conservar la estructura de carpetas en el repo:
+!data/raw/.gitkeep
+!data/processed/.gitkeep
