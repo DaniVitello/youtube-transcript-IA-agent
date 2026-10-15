@@ -1,3 +1,6 @@
+# Docs personales (universos): no salen de tu PC
+docs/universos/
+
 # Keys y datos locales: NUNCA subir al repo
 .env
 .venv/
